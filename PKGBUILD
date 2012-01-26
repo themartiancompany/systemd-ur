@@ -2,7 +2,7 @@
 
 pkgname=systemd
 pkgver=39
-pkgrel=1
+pkgrel=2
 pkgdesc="Session and Startup manager"
 arch=('i686' 'x86_64')
 url="http://www.freedesktop.org/wiki/Software/systemd"
@@ -26,9 +26,11 @@ backup=(etc/dbus-1/system.d/org.freedesktop.systemd1.conf
         etc/systemd/systemd-logind.conf)
 install=systemd.install
 source=("http://www.freedesktop.org/software/$pkgname/$pkgname-$pkgver.tar.xz"
-        "os-release")
+        "os-release"
+        "0001-mount-fix-automount-regression.patch")
 md5sums=('7179b34f6f6553d2a36551ac1dec5f0d'
-         '752636def0db3c03f121f8b4f44a63cd')
+         '752636def0db3c03f121f8b4f44a63cd'
+         '6e42637c1b1d4589909329dab777631b')
 
 build() {
   cd "$pkgname-$pkgver"
@@ -37,6 +39,9 @@ build() {
   # https://bugzilla.redhat.com/show_bug.cgi?id=663900
   sed -i -e '/^Environ.*LANG/s/^/#/' \
          -e '/^ExecStart/s/agetty/& -8/' units/getty@.service.m4
+
+  # fix default dependencies for automounts in /etc/fstab
+  patch -Np1 < "$srcdir/0001-mount-fix-automount-regression.patch"
 
   ./configure --sysconfdir=/etc \
               --libexecdir=/usr/lib \
@@ -56,6 +61,9 @@ package() {
   cd "$pkgname-$pkgver"
 
   make DESTDIR="$pkgdir" install
+
+  # needed by systemd-loginctl for enable-linger
+  install -dm755 "$pkgdir/var/lib/systemd"
 
   install -Dm644 "$srcdir/os-release" "$pkgdir/etc/os-release"
   printf "d /run/console 755 root root\n" > "$pkgdir/usr/lib/tmpfiles.d/console.conf"
