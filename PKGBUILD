@@ -2,7 +2,7 @@
 
 pkgname=systemd
 pkgver=43
-pkgrel=1
+pkgrel=2
 pkgdesc="Session and Startup manager"
 arch=('i686' 'x86_64')
 url="http://www.freedesktop.org/wiki/Software/systemd"
@@ -45,7 +45,8 @@ build() {
               --libdir=/usr/lib \
               --localstatedir=/var \
               --with-rootprefix= \
-              --with-rootlibdir=/lib
+              --with-rootlibdir=/lib \
+              --with-distro=arch
 
   make
 
