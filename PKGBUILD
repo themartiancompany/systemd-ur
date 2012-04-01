@@ -3,7 +3,7 @@
 pkgbase=systemd
 pkgname=('systemd' 'libsystemd')
 pkgver=44
-pkgrel=2
+pkgrel=3
 arch=('i686' 'x86_64')
 url="http://www.freedesktop.org/wiki/Software/systemd"
 license=('GPL2')
