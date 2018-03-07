@@ -133,6 +133,11 @@ build() {
   ninja -C build
 }
 
+check() {
+  cd build
+  meson test
+}
+
 package_systemd() {
   pkgdesc="system and service manager"
   license=('GPL2' 'LGPL2.1')
