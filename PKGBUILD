@@ -228,7 +228,7 @@ package_systemd-resolvconf() {
   pkgdesc='systemd resolvconf replacement'
   license=('GPL2')
   depends=('systemd')
-  provides=('openresolv')
+  provides=('openresolv' 'resolvconf')
   conflicts=('openresolv')
 
   install -d -m0755 "$pkgdir"/usr/bin
