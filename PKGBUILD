@@ -79,18 +79,16 @@ prepare() {
   # add upstream repository for cherry-picking
   git remote add -f upstream ../systemd
 
-  local _c
+  local _c _l
   for _c in "${_backports[@]}"; do
-    if [[ $_c == *..* ]]; then
-      git log --oneline --reverse "${_c}"
-    else
-      git log --oneline -1 "${_c}"
-    fi
-    git cherry-pick -n -m1 "${_c}"
+    if [[ "${_c}" == *..* ]]; then _l='--reverse'; else _l='--max-count=1'; fi
+    git log --oneline "${_l}" "${_c}"
+    git cherry-pick --mainline 1 --no-commit "${_c}"
   done
   for _c in "${_reverts[@]}"; do
-    git log --oneline -1 "${_c}"
-    git revert -n "${_c}"
+    if [[ "${_c}" == *..* ]]; then _l='--reverse'; else _l='--max-count=1'; fi
+    git log --oneline "${_l}" "${_c}"
+    git revert --mainline 1 --no-commit "${_c}"
   done
 
   # Replace cdrom/dialout/tape groups with optical/uucp/storage
