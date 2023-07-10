@@ -120,6 +120,7 @@ build() {
     -Dbpf-framework=true
     -Dgnu-efi=true
     -Dima=false
+    -Dkernel-install=false
     -Dlibidn2=true
     -Dlz4=true
     -Dman=true
