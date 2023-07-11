@@ -9,7 +9,7 @@ pkgname=('systemd'
 _tag='c017ed867787d09484ba7de75a8f025820596955' # git rev-parse v${_tag_name}
 _tag_name=253.6
 pkgver="${_tag_name/-/}"
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 url='https://www.github.com/systemd/systemd'
 makedepends=('acl' 'cryptsetup' 'docbook-xsl' 'gperf' 'lz4' 'xz' 'pam' 'libelf'
@@ -118,7 +118,6 @@ build() {
     -Dbpf-framework=true
     -Dgnu-efi=true
     -Dima=false
-    -Dkernel-install=false
     -Dlibidn2=true
     -Dlz4=true
     -Dman=true
