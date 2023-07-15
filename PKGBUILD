@@ -6,19 +6,20 @@ pkgname=('systemd'
          'systemd-resolvconf'
          'systemd-sysvcompat'
          'systemd-ukify')
-_tag='c017ed867787d09484ba7de75a8f025820596955' # git rev-parse v${_tag_name}
-_tag_name=253.6
+_tag='a2ca1a60b068280a9b54f1e2c9bb486350dd9bfa' # git rev-parse v${_tag_name}
+_tag_name=254-rc2
 pkgver="${_tag_name/-/}"
-pkgrel=2
+pkgrel=1
 arch=('x86_64')
 url='https://www.github.com/systemd/systemd'
 makedepends=('acl' 'cryptsetup' 'docbook-xsl' 'gperf' 'lz4' 'xz' 'pam' 'libelf'
              'intltool' 'iptables' 'kmod' 'libcap' 'libidn2' 'libgcrypt'
              'libmicrohttpd' 'libxcrypt' 'libxslt' 'util-linux' 'linux-api-headers'
-             'python-jinja' 'python-lxml' 'quota-tools' 'shadow' 'gnu-efi-libs' 'git'
+             'python-jinja' 'python-lxml' 'quota-tools' 'shadow' 'git'
              'meson' 'libseccomp' 'pcre2' 'audit' 'kexec-tools' 'libxkbcommon'
              'bash-completion' 'p11-kit' 'systemd' 'libfido2' 'tpm2-tss' 'rsync'
-             'bpf' 'libbpf' 'clang' 'llvm' 'curl' 'gnutls')
+             'bpf' 'libbpf' 'clang' 'llvm' 'curl' 'gnutls' 'python-pyelftools')
+checkdepends=('python-pefile')
 options=('strip')
 validpgpkeys=('63CDA1E5D3FC22B998D20DD6327F26951A015CC4'  # Lennart Poettering <lennart@poettering.net>
               'A9EA9081724FFAE0484C35A1A81CEA22BC8C7E2E'  # Luca Boccassi <luca.boccassi@gmail.com>
@@ -115,8 +116,8 @@ build() {
     -Dshared-lib-tag="${pkgver}-${pkgrel}"
     -Dmode=release
 
+    -Dbootloader=true
     -Dbpf-framework=true
-    -Dgnu-efi=true
     -Dima=false
     -Dlibidn2=true
     -Dlz4=true
@@ -195,6 +196,7 @@ package_systemd() {
           etc/systemd/system.conf
           etc/systemd/timesyncd.conf
           etc/systemd/user.conf
+          etc/udev/iocost.conf
           etc/udev/udev.conf)
   install=systemd.install
 
