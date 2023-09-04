@@ -308,7 +308,7 @@ package_systemd-ukify() {
   pkgdesc='Combine kernel and initrd into a signed Unified Kernel Image'
   license=('GPL2')
   provides=('ukify')
-  depends=('binutils' 'python-pefile' 'systemd')
+  depends=('binutils' 'python-cryptography' 'python-pefile' 'systemd')
   optdepends=('python-pillow: Show the size of splash image'
               'sbsigntools: Sign the embedded kernel')
 
