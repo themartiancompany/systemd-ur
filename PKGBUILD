@@ -6,8 +6,8 @@ pkgname=('systemd'
          'systemd-resolvconf'
          'systemd-sysvcompat'
          'systemd-ukify')
-_tag='2c4171c3c4146fcb32253bfb6423b5a3ee42a553' # git rev-parse v${_tag_name}
-_tag_name=254.1
+_tag='bdc3d31fc044b5c44cc1cf62e833dda189c70dcf' # git rev-parse v${_tag_name}
+_tag_name=254.2
 pkgver="${_tag_name/-/}"
 pkgrel=1
 arch=('x86_64')
