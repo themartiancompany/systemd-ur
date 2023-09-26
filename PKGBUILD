@@ -29,13 +29,17 @@ validpgpkeys=('63CDA1E5D3FC22B998D20DD6327F26951A015CC4'  # Lennart Poettering <
 source=("git+https://github.com/systemd/systemd-stable#tag=${_tag}?signed"
         "git+https://github.com/systemd/systemd#tag=v${_tag_name%.*}?signed"
         '0001-Use-Arch-Linux-device-access-groups.patch'
+        # mkinitcpio files
         'initcpio-hook-udev'
         'initcpio-install-systemd'
         'initcpio-install-udev'
+        # bootloader files
         'arch.conf'
         'loader.conf'
         'splash-arch.bmp'
+        # pam configuration
         'systemd-user.pam'
+        # pacman / libalpm hooks
         'systemd-hook'
         '20-systemd-sysusers.hook'
         '30-systemd-binfmt.hook'
