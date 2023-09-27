@@ -72,6 +72,8 @@ sha512sums=('SKIP'
             '825b9dd0167c072ba62cabe0677e7cd20f2b4b850328022540f122689d8b25315005fa98ce867cf6e7460b2b26df16b88bb3b5c9ebf721746dce4e2271af7b97')
 
 _backports=(
+  # current stable/v254-stable
+  "v${_tag_name}..149ba4f8e81fc3fbd883eed4c461a00df33e55cc"
 )
 
 _reverts=(
