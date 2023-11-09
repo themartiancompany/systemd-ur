@@ -223,7 +223,8 @@ package_systemd() {
   mv "$pkgdir"/usr/share/man/man3 systemd-libs/man3
 
   # ukify shipped in separate package
-  install -d -m0755 systemd-ukify/{systemd,man1}
+  install -d -m0755 systemd-ukify/{install.d,systemd,man1}
+  mv "$pkgdir"/usr/lib/kernel/install.d/{60-ukify,90-uki-copy}.install systemd-ukify/install.d/
   mv "$pkgdir"/usr/lib/systemd/ukify systemd-ukify/systemd/
   mv "$pkgdir"/usr/share/man/man1/ukify.1 systemd-ukify/man1/
 
@@ -322,7 +323,8 @@ package_systemd-ukify() {
   optdepends=('python-pillow: Show the size of splash image'
               'sbsigntools: Sign the embedded kernel')
 
-  install -d -m0755 "$pkgdir"/usr/{lib,share/man}
+  install -d -m0755 "$pkgdir"/usr/{lib/kernel,share/man}
+  mv systemd-ukify/install.d "$pkgdir"/usr/lib/kernel/install.d
   mv systemd-ukify/systemd "$pkgdir"/usr/lib/systemd
   mv systemd-ukify/man1 "$pkgdir"/usr/share/man/man1
 }
