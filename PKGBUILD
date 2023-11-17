@@ -9,7 +9,7 @@ pkgname=('systemd'
 _tag='54e09603b2ce30284610d7612403277852321e70' # git rev-parse v${_tag_name}
 _tag_name=255-rc2
 pkgver="${_tag_name/-/}"
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 url='https://www.github.com/systemd/systemd'
 makedepends=('acl' 'cryptsetup' 'docbook-xsl' 'gperf' 'lz4' 'xz' 'pam' 'libelf'
@@ -54,7 +54,7 @@ sha512sums=('SKIP'
             'SKIP'
             '3ccf783c28f7a1c857120abac4002ca91ae1f92205dcd5a84aff515d57e706a3f9240d75a0a67cff5085716885e06e62597baa86897f298662ec36a940cf410e'
             '4a6cd0cf6764863985dc5ad774d7c93b574645a05b3295f989342951d43c71696d069641592e37eeadb6d6f0531576de96b6392224452f15cd9f056fae038f8e'
-            '746c47c3e0aabc0bad655869f2a654df636dc696e3ea0aff9c787dabbe273e200bddb167269e88d85e3941efab46adcd962545794c9e958af3255571fbf7a5a4'
+            'b1ee08e933fdbbbac78ef75a5755b0d8e003d86d218ee21a9174f14fedad6cce37dae5bbfce4da105b0d55b9594808e4f043ea94212733310ab3346990f60f58'
             'a8c7e4a2cc9c9987e3c957a1fc3afe8281f2281fffd2e890913dcf00cf704024fb80d86cb75f9314b99b0e03bac275b22de93307bfc226d8be9435497e95b7e6'
             '61032d29241b74a0f28446f8cf1be0e8ec46d0847a61dadb2a4f096e8686d5f57fe5c72bcf386003f6520bc4b5856c32d63bf3efe7eb0bc0deefc9f68159e648'
             'c416e2121df83067376bcaacb58c05b01990f4614ad9de657d74b6da3efa441af251d13bf21e3f0f71ddcb4c9ea658b81da3d915667dc5c309c87ec32a1cb5a5'
