@@ -26,14 +26,29 @@ udevd_live() {
 op="$1"; shift
 
 case "$op" in
+  binfmt)
+    systemd_live
+    /usr/lib/systemd/systemd-binfmt
+    ;;
   catalog)
     /usr/bin/journalctl --update-catalog
+    ;;
+  daemon-reload-system)
+    systemd_live
+    /usr/bin/systemctl --system daemon-reload
+    ;;
+  daemon-reload-user)
+    systemd_live
+    for _user in $(/usr/bin/systemctl list-units 'user@*' --legend=no | sed -n -r 's/.*user@([0-9]+).service.*/\1/p'); do
+      /usr/bin/systemctl --user -M "${_user}@" daemon-reload
+    done
     ;;
   hwdb)
     /usr/bin/systemd-hwdb --usr update
     ;;
-  update)
-    touch -c /usr
+  sysctl)
+    systemd_live
+    /usr/lib/systemd/systemd-sysctl
     ;;
   sysusers)
     /usr/bin/systemd-sysusers
@@ -41,10 +56,8 @@ case "$op" in
   tmpfiles)
     /usr/bin/systemd-tmpfiles --create
     ;;
-
-  daemon-reload)
-    systemd_live
-    /usr/bin/systemctl daemon-reload
+  update)
+    touch -c /usr
     ;;
   udev-reload)
     udevd_live
@@ -53,14 +66,6 @@ case "$op" in
       /usr/bin/udevadm trigger -c change
       /usr/bin/udevadm settle
     fi
-    ;;
-  binfmt)
-    systemd_live
-    /usr/lib/systemd/systemd-binfmt
-    ;;
-  sysctl)
-    systemd_live
-    /usr/lib/systemd/systemd-sysctl
     ;;
 
   # For use by other packages
