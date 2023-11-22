@@ -9,7 +9,7 @@ pkgname=('systemd'
 _tag='54e09603b2ce30284610d7612403277852321e70' # git rev-parse v${_tag_name}
 _tag_name=255-rc2
 pkgver="${_tag_name/-/}"
-pkgrel=4
+pkgrel=5
 arch=('x86_64')
 url='https://www.github.com/systemd/systemd'
 makedepends=('acl' 'cryptsetup' 'docbook-xsl' 'gperf' 'lz4' 'xz' 'pam' 'libelf'
@@ -75,7 +75,7 @@ sha512sums=('SKIP'
 
 _backports=(
   # current main
-  "${_tag}..07e89d501fc9f6ce190dcd43ddce8b1f6a393909"
+  "${_tag}..3197d778e0d16f7be5f8f887c352c00fe098068d"
 )
 
 _reverts=(
