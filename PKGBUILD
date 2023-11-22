@@ -6,10 +6,10 @@ pkgname=('systemd'
          'systemd-resolvconf'
          'systemd-sysvcompat'
          'systemd-ukify')
-_tag='54e09603b2ce30284610d7612403277852321e70' # git rev-parse v${_tag_name}
-_tag_name=255-rc2
+_tag='25b8979340ba9f5ed6941156988ae00877a71e91' # git rev-parse v${_tag_name}
+_tag_name=255-rc3
 pkgver="${_tag_name/-/}"
-pkgrel=5
+pkgrel=1
 arch=('x86_64')
 url='https://www.github.com/systemd/systemd'
 makedepends=('acl' 'cryptsetup' 'docbook-xsl' 'gperf' 'lz4' 'xz' 'pam' 'libelf'
@@ -74,8 +74,6 @@ sha512sums=('SKIP'
             '825b9dd0167c072ba62cabe0677e7cd20f2b4b850328022540f122689d8b25315005fa98ce867cf6e7460b2b26df16b88bb3b5c9ebf721746dce4e2271af7b97')
 
 _backports=(
-  # current main
-  "${_tag}..3197d778e0d16f7be5f8f887c352c00fe098068d"
 )
 
 _reverts=(
