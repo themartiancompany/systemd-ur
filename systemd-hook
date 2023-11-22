@@ -39,9 +39,7 @@ case "$op" in
     ;;
   daemon-reload-user)
     systemd_live
-    for _user in $(/usr/bin/systemctl list-units 'user@*' --legend=no | sed -n -r 's/.*user@([0-9]+).service.*/\1/p'); do
-      /usr/bin/systemctl --user -M "${_user}@" daemon-reload
-    done
+    /usr/bin/systemctl kill --kill-whom='main' --signal='SIGHUP' 'user@*.service'
     ;;
   hwdb)
     /usr/bin/systemd-hwdb --usr update

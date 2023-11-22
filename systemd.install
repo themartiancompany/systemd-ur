@@ -46,10 +46,7 @@ post_upgrade() {
 
   if sd_booted; then
     systemctl --system daemon-reexec
-
-    for _user in $(systemctl list-units 'user@*' --legend=no | sed -n -r 's/.*user@([0-9]+).service.*/\1/p'); do
-      systemctl --user -M "${_user}@" daemon-reexec
-    done
+    systemctl kill --kill-whom='main' --signal='SIGRTMIN+25' 'user@*.service'
   fi
 
   local v upgrades=(
