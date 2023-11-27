@@ -304,7 +304,7 @@ package_systemd-resolvconf() {
   license=('LGPL2.1')
   depends=('systemd')
   provides=('openresolv' 'resolvconf')
-  conflicts=('openresolv')
+  conflicts=('resolvconf')
 
   install -d -m0755 "$pkgdir"/usr/bin
   ln -s resolvectl "$pkgdir"/usr/bin/resolvconf

@@ -198,7 +198,7 @@ pkgname = systemd-resolvconf
 	depends = systemd
 	provides = openresolv
 	provides = resolvconf
-	conflicts = openresolv
+	conflicts = resolvconf
 
 pkgname = systemd-sysvcompat
 	pkgdesc = sysvinit compat for systemd
