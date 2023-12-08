@@ -332,7 +332,7 @@ package_systemd-ukify() {
   optdepends=('python-pillow: Show the size of splash image'
               'sbsigntools: Sign the embedded kernel')
 
-  install -d -m0755 "$pkgdir"/usr/{lib/kernel,share/man}
+  install -d -m0755 "$pkgdir"/usr/{lib,share/man}
   mv systemd-ukify/bin "$pkgdir"/usr/bin
   mv systemd-ukify/systemd "$pkgdir"/usr/lib/systemd
   mv systemd-ukify/man1 "$pkgdir"/usr/share/man/man1
