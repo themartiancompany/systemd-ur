@@ -230,12 +230,13 @@ package_systemd() {
   mv "$pkgdir"/usr/share/man/man3 systemd-libs/man3
 
   # ukify shipped in separate package
-  # we do *NOT* move the kernel-install files there, as other ways of
-  # creating uki exist!
-  install -d -m0755 systemd-ukify/{bin,systemd,man1}
+  install -d -m0755 systemd-ukify/{bin,systemd,man1,install.d}
   mv "$pkgdir"/usr/bin/ukify systemd-ukify/bin/
   mv "$pkgdir"/usr/lib/systemd/ukify systemd-ukify/systemd/
   mv "$pkgdir"/usr/share/man/man1/ukify.1 systemd-ukify/man1/
+  # we move the ukify hook itself, but keep 90-uki-copy.install in place,
+  # because there are other ways to generate UKIs w/o ukify, e.g. w/ mkinitcpio
+  mv "$pkgdir"/usr/lib/kernel/install.d/60-ukify.install systemd-ukify/install.d
 
   # manpages shipped with systemd-sysvcompat
   rm "$pkgdir"/usr/share/man/man8/{halt,poweroff,reboot,shutdown}.8
@@ -332,10 +333,11 @@ package_systemd-ukify() {
   optdepends=('python-pillow: Show the size of splash image'
               'sbsigntools: Sign the embedded kernel')
 
-  install -d -m0755 "$pkgdir"/usr/{lib,share/man}
+  install -d -m0755 "$pkgdir"/usr/{lib/kernel,share/man}
   mv systemd-ukify/bin "$pkgdir"/usr/bin
   mv systemd-ukify/systemd "$pkgdir"/usr/lib/systemd
   mv systemd-ukify/man1 "$pkgdir"/usr/share/man/man1
+  mv systemd-ukify/lib/kernel/install.d "$pkgdir"/usr/lib/kernel/install.d
 }
 
 # vim:ft=sh syn=sh et sw=2:
