@@ -74,6 +74,8 @@ sha512sums=('SKIP'
             '825b9dd0167c072ba62cabe0677e7cd20f2b4b850328022540f122689d8b25315005fa98ce867cf6e7460b2b26df16b88bb3b5c9ebf721746dce4e2271af7b97')
 
 _backports=(
+  # network/networkd-address: don't set up firewall rules here
+  '58c6e75f263a1562f5550221af1ec1a9b6046143'
 )
 
 _reverts=(
