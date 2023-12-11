@@ -76,6 +76,8 @@ sha512sums=('SKIP'
 _backports=(
   # network/networkd-address: don't set up firewall rules here
   '58c6e75f263a1562f5550221af1ec1a9b6046143'
+  # core: do not make private /dev/ read-only too soon
+  'b0cb93591096b23f1cb3b81825824e11609c1833'
 )
 
 _reverts=(
