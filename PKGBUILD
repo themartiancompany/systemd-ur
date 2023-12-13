@@ -341,7 +341,7 @@ package_systemd-ukify() {
   mv systemd-ukify/bin "$pkgdir"/usr/bin
   mv systemd-ukify/systemd "$pkgdir"/usr/lib/systemd
   mv systemd-ukify/man1 "$pkgdir"/usr/share/man/man1
-  mv systemd-ukify/lib/kernel/install.d "$pkgdir"/usr/lib/kernel/install.d
+  mv systemd-ukify/install.d "$pkgdir"/usr/lib/kernel/install.d
 }
 
 # vim:ft=sh syn=sh et sw=2:
