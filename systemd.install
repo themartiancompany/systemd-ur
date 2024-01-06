@@ -25,7 +25,8 @@ post_install() {
   # enable some services by default, but don't track them
   systemctl enable \
     getty@tty1.service \
-    remote-fs.target
+    remote-fs.target \
+    systemd-userdbd.socket
 
   # group 'systemd-journal-remote' is created by systemd-sysusers
   mkdir -m2755 var/log/journal/remote
