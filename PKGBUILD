@@ -99,8 +99,8 @@ sha512sums=()
     # "${url}/-/archive/${pkgver}/${_pkg}-${pkgver}.tar.gz"
   ) && \
   sha512sums+=(
-    'ciao'
-    'ciao'
+    'd6a8ec0d362354d3dac05cfd901761d5d32c3d467678683105e5f09d1aaf25f4c5b7c806f1288f3c3aa599817d1a52d54ab397c5e69affb0f72a06b683c16e21'
+    '51728de604c2169d8643718ac72acb8f70f613cfcca9e9abb7dac519f291fa26a16d48f24cae6897356319096cfe8f4d9377743e7870127374f98d432e0c557c'
   )
 [[ "${_git}" == true ]] && \
   source+=(
@@ -283,7 +283,7 @@ build() {
     -Dsbat-distro-summary='Arch Linux'
     -Dsbat-distro-pkgname="${pkgname}"
     -Dsbat-distro-version="${pkgver}"
-    -Dsbat-distro-url="https://archlinux.org/packages/core/x86_64/${pkgname}/"
+    -Dsbat-distro-url="https://archlinux.org/packages/core/${CARCH}/${pkgname}/"
   )
   # this uses malloc_usable_size,
   # which is incompatible with fortification level 3
