@@ -4,6 +4,7 @@
 # Maintainer: Pellegrino Prevete <pellegrinoprevete@gmail.com>
 # Maintainer: Truocolo <truocolo@aol.com>
 
+_bootloader="false"
 _git=false
 _pkg="systemd"
 pkgbase="${_pkg}"
@@ -166,9 +167,8 @@ prepare() {
   local \
     _c \
     _l
-  ls
   cd \
-    "${_pkg}-stable"
+    "${_pkg}-stable-${_stable_tag}"
   # add upstream repository for cherry-picking
   git \
     remote \
@@ -251,7 +251,7 @@ build() {
     -Dmode=release
 
     -Dapparmor=false
-    -Dbootloader=true
+    -Dbootloader="${_bootloader}"
     -Dxenctrl=false
     -Dbpf-framework=true
     -Dima=false
@@ -291,7 +291,7 @@ build() {
     CFLAGS="${CFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}" \
     CXXFLAGS="${CXXFLAGS/_FORTIFY_SOURCE=3/_FORTIFY_SOURCE=2}"
   arch-meson \
-    "$pkgbase-stable" \
+    "${_pkg}-stable-${_stable_tag}" \
     build \
       "${_meson_options[@]}"
   meson \
@@ -315,38 +315,38 @@ package_systemd() {
   )
   depends=(
     'acl'
-    'libacl.so'
+    'audit'
     'bash'
     'cryptsetup'
-    'libcryptsetup.so'
     'dbus'
     'dbus-units'
     'kbd'
     'kmod'
-    'libkmod.so'
     'hwdata'
+    'libaudit.so'
     'libcap'
     'libcap.so'
-    'libgcrypt'
-    'libxcrypt'
+    'libacl.so'
+    'libblkid.so'
     'libcrypt.so'
-    "${_pkg}-libs"
-    'libidn2'
-    'lz4'
-    'pam'
+    'libcrypto.so'
+    'libcryptsetup.so'
     'libelf'
+    'libgcrypt'
+    'libkmod.so'
+    'libidn2'
+    'libmount.so'
     'libseccomp'
     'libseccomp.so'
-    'util-linux'
-    'libblkid.so'
-    'libmount.so'
-    'xz'
-    'pcre2'
-    'audit'
-    'libaudit.so'
-    'openssl'
-    'libcrypto.so'
     'libssl.so'
+    'libxcrypt'
+    'lz4'
+    'openssl'
+    'pam'
+    'pcre2'
+    "${_pkg}-libs"
+    'util-linux'
+    'xz'
   )
   provides=(
     'nss-myhostname'
@@ -364,19 +364,19 @@ package_systemd() {
     'udev'
   )
   optdepends=(
-    "libmicrohttpd: ${_pkg}systemd-journal-gatewayd and ${_pkg}-journal-remote"
-    'quota-tools: kernel-level quota management'
-    "${_pkg}-sysvcompat: symlink package to provide sysvinit binaries"
-    "${_pkg}-ukify: combine kernel and initrd into a signed Unified Kernel Image"
-    'polkit: allow administration as unprivileged user'
-    'curl: systemd-journal-upload, machinectl pull-tar and pull-raw'
+    "curl: ${_pjg}-journal-upload, machinectl pull-tar and pull-raw"
     'gnutls: systemd-journal-gatewayd and systemd-journal-remote'
-    'qrencode: show QR codes'
     'iptables: firewall features'
     'libbpf: support BPF programs'
+    "libmicrohttpd: ${_pkg}-journal-gatewayd and ${_pkg}-journal-remote"
     'libpwquality: check password quality'
     'libfido2: unlocking LUKS2 volumes with FIDO2 token'
     'libp11-kit: support PKCS#11'
+    'polkit: allow administration as unprivileged user'
+    'quota-tools: kernel-level quota management'
+    'qrencode: show QR codes'
+    "${_pkg}-sysvcompat: symlink package to provide sysvinit binaries"
+    "${_pkg}-ukify: combine kernel and initrd into a signed Unified Kernel Image"
     'tpm2-tss: unlocking LUKS2 volumes with TPM2'
   )
   backup=(
@@ -407,7 +407,7 @@ package_systemd() {
         "${pkgdir}"
   # we'll create this on installation
   rmdir \
-    "$pkgdir"/var/log/journal/remote
+    "${pkgdir}/var/log/journal/remote"
   # runtime libraries shipped with systemd-libs
   install \
     -d \
@@ -438,31 +438,31 @@ package_systemd() {
     "${pkgdir}/usr/lib/${_pkg}/ukify" \
     "${_pkg}-ukify/${_pkg}"
   mv \
-    "$pkgdir"/usr/share/man/man1/ukify.1 \
+    "${pkgdir}/usr/share/man/man1/ukify.1" \
     "${_pkg}-ukify/man1"
   # we move the ukify hook itself,
   # but keep 90-uki-copy.install in place,
   # because there are other ways to generate
   # UKIs w/o ukify, e.g. w/ mkinitcpio
   mv \
-    "$pkgdir"/usr/lib/kernel/install.d/60-ukify.install \
+    "${pkgdir}/usr/lib/kernel/install.d/60-ukify.install" \
     "${_pkg}-ukify/install.d"
 
   # manpages shipped with systemd-sysvcompat
   rm \
-    "$pkgdir"/usr/share/man/man8/{halt,poweroff,reboot,shutdown}.8
+    "${pkgdir}/usr/share/man/man8/"{halt,poweroff,reboot,shutdown}.8
 
   # executable (symlinks) shipped with systemd-sysvcompat
   rm \
-    "$pkgdir"/usr/bin/{halt,init,poweroff,reboot,shutdown}
+    "${pkgdir}/usr/bin/"{halt,init,poweroff,reboot,shutdown}
 
   # files shipped with systemd-resolvconf
   rm \
-    "$pkgdir"/usr/{bin/resolvconf,share/man/man1/resolvconf.1}
+    "${pkgdir}/usr/"{bin/resolvconf,share/man/man1/resolvconf.1}
 
   # avoid a potential conflict with [core]/filesystem
   rm \
-    "$pkgdir"/usr/share/factory/etc/{issue,nsswitch.conf}
+    "${pkgdir}/usr/share/factory/etc/"{issue,nsswitch.conf}
   sed \
     -i \
     -e \
