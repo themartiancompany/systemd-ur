@@ -14,7 +14,7 @@ pkgname=(
   "${_pkg}-sysvcompat"
   "${_pkg}-ukify"
 )
-_tag='be88ad03366b8aa059bb72b39a270128ba62b428' # git rev-parse v${_tag_name}
+_tag='e88ad03366b8aa059bb72b39a270128ba62b428' # git rev-parse v${_tag_name}
 _stable_tag="253.16"
 _tag_name=255.2
 pkgver="${_tag_name/-/}"
@@ -89,18 +89,18 @@ validpgpkeys=(
   '9A774DB5DB996C154EBBFBFDA0099A18E29326E1'  # Yu Watanabe <watanabe.yu+github@gmail.com>
   '5C251B5FC54EB2F80F407AAAC54CA336CFEB557E') # Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl>
 source=()
+sha512sums=()
 [[ "${_git}" == false ]] && \
   source+=(
     # Github
     "${_pkg}-stable-${_stable_tag}.tar.gz::${url}-stable/archive/refs/tags/v${_stable_tag}.tar.gz"
-    "${_pkg}-${pkgver}.zip::${url}/archive/${_tag}.zip"
-    # "${_pkg}-${pkgver}.tar.gz::${url}/archive/refs/tags/${_tag_name%.*}.tar.gz"
+    "${_pkg}-${_tag_name}.tar.gz::${url}/archive/refs/tags/v${_tag_name%.*}.tar.gz"
     # Gitlab
     # "${url}/-/archive/${pkgver}/${_pkg}-${pkgver}.tar.gz"
   ) && \
   sha512sums+=(
-    ciao
-    ciao
+    'ciao'
+    'ciao'
   )
 [[ "${_git}" == true ]] && \
   source+=(
@@ -136,7 +136,7 @@ source+=(
   "30-${_pkg}-udev-reload.hook"
   "30-${_pkg}-update.hook"
 )
-sha512sums=(
+sha512sums+=(
   '3ccf783c28f7a1c857120abac4002ca91ae1f92205dcd5a84aff515d57e706a3f9240d75a0a67cff5085716885e06e62597baa86897f298662ec36a940cf410e'
   '4a6cd0cf6764863985dc5ad774d7c93b574645a05b3295f989342951d43c71696d069641592e37eeadb6d6f0531576de96b6392224452f15cd9f056fae038f8e'
   'ada692514d758fa11e2be6b4c5e1dc2d9d47548f24ada35afdce1dcac918e72ae2251c892773e6cf41fa431c3613a1608668e999eb86a565870fecb55c47b4ba'
@@ -364,10 +364,10 @@ package_systemd() {
     'udev'
   )
   optdepends=(
-    'libmicrohttpd: systemd-journal-gatewayd and systemd-journal-remote'
+    "libmicrohttpd: ${_pkg}systemd-journal-gatewayd and ${_pkg}-journal-remote"
     'quota-tools: kernel-level quota management'
     "${_pkg}-sysvcompat: symlink package to provide sysvinit binaries"
-    'systemd-ukify: combine kernel and initrd into a signed Unified Kernel Image'
+    "${_pkg}-ukify: combine kernel and initrd into a signed Unified Kernel Image"
     'polkit: allow administration as unprivileged user'
     'curl: systemd-journal-upload, machinectl pull-tar and pull-raw'
     'gnutls: systemd-journal-gatewayd and systemd-journal-remote'
@@ -432,21 +432,21 @@ package_systemd() {
     -m0755 \
     "${_pkg}-ukify/"{bin,"${_pkg}",man1,install.d}
   mv \
-    "$pkgdir"/usr/bin/ukify \
+    "${pkgdir}/usr/bin/ukify" \
     "${_pkg}-ukify/bin"
   mv \
-    "$pkgdir"/usr/lib/systemd/ukify \
-    systemd-ukify/systemd/
+    "${pkgdir}/usr/lib/${_pkg}/ukify" \
+    "${_pkg}-ukify/${_pkg}"
   mv \
     "$pkgdir"/usr/share/man/man1/ukify.1 \
-    systemd-ukify/man1/
+    "${_pkg}-ukify/man1"
   # we move the ukify hook itself,
   # but keep 90-uki-copy.install in place,
   # because there are other ways to generate
   # UKIs w/o ukify, e.g. w/ mkinitcpio
   mv \
     "$pkgdir"/usr/lib/kernel/install.d/60-ukify.install \
-    systemd-ukify/install.d
+    "${_pkg}-ukify/install.d"
 
   # manpages shipped with systemd-sysvcompat
   rm \
@@ -481,8 +481,8 @@ package_systemd() {
   install \
     -D \
     -m0644 \
-    initcpio-install-systemd \
-    "$pkgdir"/usr/lib/initcpio/install/systemd
+    "initcpio-install-${_pkg}" \
+    "${pkgdir}/usr/lib/initcpio/install/${_pkg}"
   install \
     -D \
     -m0644 \
@@ -527,31 +527,31 @@ package_systemd() {
     -D \
     -m0644 \
     loader.conf \
-    "$pkgdir"/usr/share/systemd/bootctl/loader.conf
+    "${pkgdir}/usr/share/${_pkg}/bootctl/loader.conf"
   install \
     -D \
     -m0644 \
     splash-arch.bmp \
-    "$pkgdir"/usr/share/systemd/bootctl/splash-arch.bmp
+    "${pkgdir}/usr/share/${_pkg}/bootctl/splash-arch.bmp"
   # pacman hooks
   install \
     -D \
     -m0755 \
-    systemd-hook \
-    "$pkgdir"/usr/share/libalpm/scripts/systemd-hook
+    "${_pkg}-hook" \
+    "${pkgdir}/usr/share/libalpm/scripts/${_pkg}-hook"
   install \
     -D \
     -m0644 \
     -t \
-    "$pkgdir"/usr/share/libalpm/hooks \
+    "${pkgdir}"/usr/share/libalpm/hooks \
     *.hook
   # overwrite the systemd-user
   # PAM configuration with our own
   install \
     -D \
     -m0644 \
-    systemd-user.pam \
-    "$pkgdir"/etc/pam.d/systemd-user
+    "${_pkg}-user.pam" \
+    "${pkgdir}/etc/pam.d/${_pkg}-user"
 }
 
 package_systemd-libs() {
@@ -563,43 +563,44 @@ package_systemd-libs() {
     'libgcrypt'
     'lz4'
     'xz'
-    'zstd')
+    'zstd'
+  )
   license=(
     'LGPL2.1'
   )
   provides=(
-    'libsystemd'
-    'libsystemd.so'
-    'libudev.so'
+    "lib${_pkg}=${pkgver}"
+    "lib${_pkg}.so=${pkgver}"
+    "libudev.so"
   )
   conflicts=(
-    'libsystemd'
+    "lib${_pkg}"
   )
   replaces=(
-    'libsystemd'
+    "lib${_pkg}"
   )
   install \
     -d \
     -m0755 \
     "$pkgdir"/usr/share/man
   mv \
-    systemd-libs/lib \
+    "${_pkg}-libs/lib" \
     "$pkgdir"/usr/lib
   mv \
-    systemd-libs/include \
-    "$pkgdir"/usr/include
+    "${_pkg}-libs/include" \
+    "${pkgdir}"/usr/include
   mv \
-    systemd-libs/man3 \
+    "${_pkg}-libs/man3" \
     "$pkgdir"/usr/share/man/man3
 }
 
 package_systemd-resolvconf() {
-  pkgdesc='systemd resolvconf replacement (for use with systemd-resolved)'
+  pkgdesc="${_pkg} resolvconf replacement (for use with ${_pkg}-resolved)"
   license=(
     'LGPL2.1'
   )
   depends=(
-    'systemd'
+    "${_pkg}"
   )
   provides=(
     'openresolv'
@@ -627,7 +628,7 @@ package_systemd-resolvconf() {
 }
 
 package_systemd-sysvcompat() {
-  pkgdesc='sysvinit compat for systemd'
+  pkgdesc="sysvinit compat for ${_pkg}"
   license=(
     'GPL2'
   )
@@ -635,7 +636,7 @@ package_systemd-sysvcompat() {
     'sysvinit'
   )
   depends=(
-    'systemd'
+    "${_pkg}"
   )
   install \
     -D \
@@ -649,7 +650,7 @@ package_systemd-sysvcompat() {
     "$pkgdir"/usr/bin
   ln \
     -s \
-    ../lib/systemd/systemd \
+    "../lib/${_pkg}/${_pkg}" \
     "$pkgdir"/usr/bin/init
   for tool \
     in halt \
@@ -675,7 +676,7 @@ package_systemd-ukify() {
     'binutils'
     'python-cryptography'
     'python-pefile'
-    'systemd'
+    "${_pkg}"
   )
   optdepends=(
     'python-pillow: Show the size of splash image'
@@ -686,16 +687,16 @@ package_systemd-ukify() {
     -m0755 \
     "$pkgdir"/usr/{lib/kernel,share/man}
   mv \
-    systemd-ukify/bin \
+    "${_pkg}-ukify/bin" \
     "$pkgdir"/usr/bin
   mv \
-    systemd-ukify/systemd \
-    "$pkgdir"/usr/lib/systemd
+    "${_pkg}-ukify/${_pkg}" \
+    "${pkgdir}/usr/lib/${_pkg}"
   mv \
-    systemd-ukify/man1 \
+    "${_pkg}-ukify/man1" \
     "$pkgdir"/usr/share/man/man1
   mv \
-    systemd-ukify/install.d \
+    "${_pkg}-ukify/install.d" \
     "$pkgdir"/usr/lib/kernel/install.d
 }
 
