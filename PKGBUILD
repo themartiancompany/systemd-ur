@@ -271,7 +271,7 @@ build() {
     -Dmode=release
 
     -Dapparmor=false
-    -Dbootloader="${_bootloader}"
+    -Defi="${_bootloader}"
     -Dxenctrl=false
     -Dbpf-framework="${_bpf}"
     -Dima=false
