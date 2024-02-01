@@ -13,23 +13,33 @@ pkgrel=2
 arch=(
   'x86_64'
   'arm'
+  'armv7h'
+  'aarch64'
 )
 url='https://www.github.com/systemd/systemd'
-makedepends=('acl' 'cryptsetup' 'docbook-xsl' 'gperf' 'lz4' 'xz' 'pam' 'libelf'
-             'intltool' 'iptables' 'kmod' 'libcap' 'libidn2' 'libgcrypt'
-             'libmicrohttpd' 'libxcrypt' 'libxslt' 'util-linux' 'linux-api-headers'
-             'python-jinja' 'python-lxml' 'quota-tools' 'shadow' 'git'
-             'meson' 'libseccomp' 'pcre2' 'audit' 'kexec-tools' 'libxkbcommon'
-             'bash-completion'
-             'p11-kit'
-             'systemd'
-             'libfido2'
-             'tpm2-tss'
-             'rsync'
-             'bpf'
-             'libbpf' # says incompatible with arm when building with glibc on android
-             'clang' 'llvm' 'curl' 'gnutls' 'python-pyelftools'
-             'libpwquality' 'qrencode' 'lib32-gcc-libs')
+makedepends=(
+  'acl'
+  'cryptsetup'
+  'docbook-xsl'
+  'gperf'
+  'lz4'
+  'xz'
+  'pam'
+  'libelf'
+  'intltool' 'iptables' 'kmod' 'libcap' 'libidn2' 'libgcrypt'
+  'libmicrohttpd' 'libxcrypt' 'libxslt' 'util-linux' 'linux-api-headers'
+  'python-jinja' 'python-lxml' 'quota-tools' 'shadow' 'git'
+  'meson' 'libseccomp' 'pcre2' 'audit' 'kexec-tools' 'libxkbcommon'
+  'bash-completion'
+  'p11-kit'
+  'systemd'
+  'libfido2'
+  'tpm2-tss'
+  'rsync'
+  'bpf'
+  'libbpf' # says incompatible with arm when building with glibc on android
+  'clang' 'llvm' 'curl' 'gnutls' 'python-pyelftools'
+  'libpwquality' 'qrencode' 'lib32-gcc-libs')
 checkdepends=('python-pefile')
 options=('strip')
 validpgpkeys=('63CDA1E5D3FC22B998D20DD6327F26951A015CC4'  # Lennart Poettering <lennart@poettering.net>
