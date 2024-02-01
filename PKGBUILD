@@ -4,6 +4,7 @@
 # Maintainer: Pellegrino Prevete <pellegrinoprevete@gmail.com>
 # Maintainer: Truocolo <truocolo@aol.com>
 
+_git=true
 _pkg="systemd"
 pkgbase="${_pkg}"
 pkgname=(
@@ -80,13 +81,32 @@ options=(
   'strip'
 )
 validpgpkeys=(
-  '63CDA1E5D3FC22B998D20DD6327F26951A015CC4'  # Lennart Poettering <lennart@poettering.net>
-  'A9EA9081724FFAE0484C35A1A81CEA22BC8C7E2E'  # Luca Boccassi <luca.boccassi@gmail.com>
+  # Lennart Poettering <lennart@poettering.net>
+  '63CDA1E5D3FC22B998D20DD6327F26951A015CC4'
+  # Luca Boccassi <luca.boccassi@gmail.com>
+  'A9EA9081724FFAE0484C35A1A81CEA22BC8C7E2E'
+  '9A774DB5DB996C154EBBFBFDA0099A18E29326E1'  # Yu Watanabe <watanabe.yu+github@gmail.com>
   '9A774DB5DB996C154EBBFBFDA0099A18E29326E1'  # Yu Watanabe <watanabe.yu+github@gmail.com>
   '5C251B5FC54EB2F80F407AAAC54CA336CFEB557E') # Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl>
-source=(
-  "git+${url}-stable#tag=${_tag}?signed"
-  "git+${url}#tag=v${_tag_name%.*}?signed"
+source=()
+[[ "${_git}" == false ]] && \
+  source+=(
+    "${url}/-/archive/${pkgver}/${_pkg}-${pkgver}.tar.gz"
+    "${url}-stable/-/archive/${pkgver}/${_pkg}-${pkgver}.tar.gz"
+  ) && \
+  sha512sums+=(
+    ciao
+  )
+[[ "${_git}" == true ]] && \
+  source+=(
+    "git+${url}-stable#tag=${_tag}?signed"
+    "git+${url}#tag=v${_tag_name%.*}?signed"
+  ) && \
+  sha512sums+=(
+    'SKIP'
+    'SKIP'
+  )
+source+=(
   '0001-Use-Arch-Linux-device-access-groups.patch'
   # mkinitcpio files
   'initcpio-hook-udev'
@@ -112,8 +132,6 @@ source=(
   "30-${_pkg}-update.hook"
 )
 sha512sums=(
-  'SKIP'
-  'SKIP'
   '3ccf783c28f7a1c857120abac4002ca91ae1f92205dcd5a84aff515d57e706a3f9240d75a0a67cff5085716885e06e62597baa86897f298662ec36a940cf410e'
   '4a6cd0cf6764863985dc5ad774d7c93b574645a05b3295f989342951d43c71696d069641592e37eeadb6d6f0531576de96b6392224452f15cd9f056fae038f8e'
   'ada692514d758fa11e2be6b4c5e1dc2d9d47548f24ada35afdce1dcac918e72ae2251c892773e6cf41fa431c3613a1608668e999eb86a565870fecb55c47b4ba'
