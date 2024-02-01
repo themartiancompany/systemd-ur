@@ -188,52 +188,53 @@ prepare() {
     _l
   cd \
     "${_pkg}-stable-${_stable_tag}"
+  [[ "${_git}" == true ]] && \
   # add upstream repository for cherry-picking
-  git \
-    remote \
-      add \
-        -f \
-        upstream \
-        "../${_pkg}"
-  for _c \
-    in "${_backports[@]}"; do
-    if \
-      [[ "${_c}" == *..* ]]; then 
-      _l='--reverse';
-    else 
-      _l='--max-count=1'; 
-    fi
     git \
-      log \
-        --oneline \
-        "${_l}" \
-        "${_c}"
-    git \
-      cherry-pick \
-        --mainline \
-          1 \
-        --no-commit \
-        "${_c}"
-  done
-  for _c \
-    in "${_reverts[@]}"; do
-    if [[ "${_c}" == *..* ]]; then 
-      _l='--reverse';
-    else 
-      _l='--max-count=1';
-    fi
-    git \
-      log \
-        --oneline \
-        "${_l}" \
-        "${_c}"
-    git \
-      revert \
-        --mainline \
-          1 \
-        --no-commit \
-        "${_c}"
-  done
+      remote \
+        add \
+          -f \
+          upstream \
+          "../${_pkg}" && \
+    for _c \
+      in "${_backports[@]}"; do
+      if \
+        [[ "${_c}" == *..* ]]; then 
+        _l='--reverse';
+      else 
+        _l='--max-count=1'; 
+      fi
+      git \
+        log \
+          --oneline \
+          "${_l}" \
+          "${_c}"
+      git \
+        cherry-pick \
+          --mainline \
+            1 \
+          --no-commit \
+          "${_c}"
+    done && \
+    for _c \
+      in "${_reverts[@]}"; do
+      if [[ "${_c}" == *..* ]]; then 
+        _l='--reverse';
+      else 
+        _l='--max-count=1';
+      fi
+      git \
+        log \
+          --oneline \
+          "${_l}" \
+          "${_c}"
+      git \
+        revert \
+          --mainline \
+            1 \
+          --no-commit \
+          "${_c}"
+    done
   # Replace cdrom/dialout/tape
   # groups with optical/uucp/storage
   patch \
