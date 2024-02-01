@@ -4,8 +4,20 @@
 # Maintainer: Pellegrino Prevete <pellegrinoprevete@gmail.com>
 # Maintainer: Truocolo <truocolo@aol.com>
 
-_bootloader="false"
-_git=false
+_os="$( \
+  uname \
+    -o)"
+_bootloader="true"
+_git="true"
+_bpf="true"
+_docs="true"
+[[ "${_os}" == 'Android' ]] && \
+  _bootloader="false" && \
+  _git="false" && \
+   # says incompatible arch when building
+   # with glibc on android
+  _bpf="false" && \
+  _docs="false"
 _pkg="systemd"
 pkgbase="${_pkg}"
 pkgname=(
@@ -31,50 +43,53 @@ url="${_http}/${_pkg}/${_pkg}"
 makedepends=(
   'acl'
   'audit'
-  'bpf'
+  'bash-completion'
+  'clang'
   'cryptsetup'
+  'curl'
   'docbook-xsl'
+  'gnutls'
   'gperf'
-  'lz4'
-  'xz'
-  'pam'
-  'libelf'
+  'kexec-tools'
+  'kmod'
   'intltool'
   'iptables'
-  'kmod'
+  'lib32-gcc-libs'
   'libcap'
+  'libelf'
+  'libfido2'
   'libidn2'
   'libgcrypt'
   'libmicrohttpd'
+  'libpwquality'
+  'libseccomp'
   'libxcrypt'
+  'libxkbcommon'
   'libxslt'
-  'util-linux'
   'linux-api-headers'
+  'llvm'
+  'lz4'
+  'meson'
+  'pam'
+  'p11-kit'
+  'pcre2'
   'python-jinja'
   'python-lxml'
-  'quota-tools'
-  'shadow'
-  'meson'
-  'libseccomp'
-  'pcre2'
-  'kexec-tools'
-  'libxkbcommon'
-  'bash-completion'
-  'p11-kit'
-  "${_pkg}"
-  'libfido2'
-  'tpm2-tss'
-  'rsync'
-  'libbpf' # says incompatible with arm when building with glibc on android
-  'clang'
-  'llvm'
-  'curl'
-  'gnutls'
   'python-pyelftools'
-  'libpwquality'
+  'quota-tools'
   'qrencode'
-  'lib32-gcc-libs'
+  'rsync'
+  'shadow'
+  "${_pkg}"
+  'tpm2-tss'
+  'util-linux'
+  'xz'
 )
+[[ "${_bpf}" == true ]] && \
+  makedepends+=(
+    'bpf'
+    'libbpf'
+  )
 checkdepends=(
   'python-pefile'
 )
@@ -104,6 +119,9 @@ sha512sums=()
     '51728de604c2169d8643718ac72acb8f70f613cfcca9e9abb7dac519f291fa26a16d48f24cae6897356319096cfe8f4d9377743e7870127374f98d432e0c557c'
   )
 [[ "${_git}" == true ]] && \
+  makedepends+=(
+    git
+  )
   source+=(
     "git+${url}-stable#tag=${_tag}?signed"
     "git+${url}#tag=v${_tag_name%.*}?signed"
@@ -253,7 +271,7 @@ build() {
     -Dapparmor=false
     -Dbootloader="${_bootloader}"
     -Dxenctrl=false
-    -Dbpf-framework=true
+    -Dbpf-framework="${_bpf}"
     -Dima=false
     -Dlibidn2=true
     -Dlz4=true
