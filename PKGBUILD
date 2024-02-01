@@ -4,7 +4,7 @@
 # Maintainer: Pellegrino Prevete <pellegrinoprevete@gmail.com>
 # Maintainer: Truocolo <truocolo@aol.com>
 
-_git=true
+_git=false
 _pkg="systemd"
 pkgbase="${_pkg}"
 pkgname=(
@@ -28,6 +28,8 @@ _http="https://www.github.com"
 url="${_http}/${_pkg}/${_pkg}"
 makedepends=(
   'acl'
+  'audit'
+  'bpf'
   'cryptsetup'
   'docbook-xsl'
   'gperf'
@@ -50,11 +52,9 @@ makedepends=(
   'python-lxml'
   'quota-tools'
   'shadow'
-  'git'
   'meson'
   'libseccomp'
   'pcre2'
-  'audit'
   'kexec-tools'
   'libxkbcommon'
   'bash-completion'
@@ -63,7 +63,6 @@ makedepends=(
   'libfido2'
   'tpm2-tss'
   'rsync'
-  'bpf'
   'libbpf' # says incompatible with arm when building with glibc on android
   'clang'
   'llvm'
