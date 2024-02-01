@@ -11,13 +11,14 @@ _bootloader="true"
 _git="true"
 _bpf="true"
 _docs="true"
+echo "${_os}"
 [[ "${_os}" == 'Android' ]] && \
   _bootloader="false" && \
   _git="false" && \
    # says incompatible arch when building
    # with glibc on android
   _bpf="false" && \
-  _docs="false"
+  _docs="true"
 _pkg="systemd"
 pkgbase="${_pkg}"
 pkgname=(
@@ -106,7 +107,7 @@ validpgpkeys=(
   '5C251B5FC54EB2F80F407AAAC54CA336CFEB557E') # Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl>
 source=()
 sha512sums=()
-[[ "${_git}" == false ]] && \
+[[ "${_git}" == "false" ]] && \
   source+=(
     # Github
     "${_pkg}-stable-${_stable_tag}.tar.gz::${url}-stable/archive/refs/tags/v${_stable_tag}.tar.gz"
@@ -121,7 +122,7 @@ sha512sums=()
 [[ "${_git}" == true ]] && \
   makedepends+=(
     git
-  )
+  ) && \
   source+=(
     "git+${url}-stable#tag=${_tag}?signed"
     "git+${url}#tag=v${_tag_name%.*}?signed"
@@ -275,7 +276,7 @@ build() {
     -Dima=false
     -Dlibidn2=true
     -Dlz4=true
-    -Dman=true
+    -Dman="${_docs}"
     -Dnscd=false
     -Dselinux=false
 
