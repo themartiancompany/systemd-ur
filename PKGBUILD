@@ -91,10 +91,14 @@ validpgpkeys=(
 source=()
 [[ "${_git}" == false ]] && \
   source+=(
-    "${url}/-/archive/${pkgver}/${_pkg}-${pkgver}.tar.gz"
-    "${url}-stable/-/archive/${pkgver}/${_pkg}-${pkgver}.tar.gz"
+    # Github
+    "${url}-stable/-/archive/${pkgver}/${_pkg}-${_tag}.tar.gz"
+    "${_pkg}-${pkgver}.tar.gz::${url}/archive/refs/tags/${_tag_name%.*}.tar.gz"
+    # Gitlab
+    # "${url}/-/archive/${pkgver}/${_pkg}-${pkgver}.tar.gz"
   ) && \
   sha512sums+=(
+    ciao
     ciao
   )
 [[ "${_git}" == true ]] && \
@@ -161,6 +165,7 @@ prepare() {
   local \
     _c \
     _l
+  ls
   cd \
     "${_pkg}-stable"
   # add upstream repository for cherry-picking
