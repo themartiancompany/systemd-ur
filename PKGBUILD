@@ -15,6 +15,7 @@ pkgname=(
   "${_pkg}-ukify"
 )
 _tag='be88ad03366b8aa059bb72b39a270128ba62b428' # git rev-parse v${_tag_name}
+_stable_tag="253.16"
 _tag_name=255.2
 pkgver="${_tag_name/-/}"
 pkgrel=2
@@ -91,8 +92,9 @@ source=()
 [[ "${_git}" == false ]] && \
   source+=(
     # Github
-    "${url}-stable/-/archive/${pkgver}/${_pkg}-${_tag}.tar.gz"
-    "${_pkg}-${pkgver}.tar.gz::${url}/archive/refs/tags/${_tag_name%.*}.tar.gz"
+    "${_pkg}-stable-${_stable_tag}.tar.gz::${url}-stable/archive/refs/tags/v${_stable_tag}.tar.gz"
+    "${_pkg}-${pkgver}.zip::${url}/archive/${_tag}.zip"
+    # "${_pkg}-${pkgver}.tar.gz::${url}/archive/refs/tags/${_tag_name%.*}.tar.gz"
     # Gitlab
     # "${url}/-/archive/${pkgver}/${_pkg}-${pkgver}.tar.gz"
   ) && \
